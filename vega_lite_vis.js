@@ -1,5 +1,5 @@
-var vg_1 = "WineImports.vg.json"; 
-var vg_2 = "pie.vg.json"; 
+var vg_1 = "GlobalWineProducers.vg.json"; 
+var vg_2 = "TopWineProducers.vg.json"; 
 
 vegaEmbed("#map", vg_1).then(function(result) {
     // Access the Vega view instance 
