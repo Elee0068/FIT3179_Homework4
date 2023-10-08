@@ -1,0 +1,62 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json", 
+    "title": "World map of Wine Production (2022)",
+    "width": 1200,
+    "autosize": {
+        "type": "fit-x",
+        "contains": "padding",
+        "resize": true
+      },
+    "height": 400,
+    "config": {
+        "view": {
+           "stroke": "transparent"
+        }
+      },
+    "projection": {"type": "equalEarth"},
+    "layer": [
+        {
+            "data": {
+            "url":
+            "https://raw.githubusercontent.com/JiazhouLiu/FIT3179/main/VegaLite/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+            "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+        },
+    
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/JiazhouLiu/FIT3179/main/VegaLite/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
+                "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+                }, 
+                "transform": [
+                {
+                    "lookup": "properties.NAME", 
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/Elee0068/FIT3179_Homework4/main/wineprodmap.csv"
+                        },
+                        "key": "Country",
+                        "fields": ["Quantity"]
+                    } 
+                }
+                ],
+                "mark": {"type": "geoshape"}, 
+                "encoding": {
+                    "color": {
+                        "field": "Quantity", 
+                        "type": "quantitative",
+                        "title": ["Quantity produced", "(1000 hl)"],
+                        "scale": {
+                            "type": "log",
+                            "scheme": "redpurple"
+                        }
+                    },
+                    "tooltip": [
+                        {"field": "properties.NAME", "type": "nominal", "title": "Country"},
+                        {"field": "Quantity", "type": "quantitative"}
+                    ]
+            }
+    }
+        ]
+}

@@ -1,0 +1,79 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json", 
+    "title": "Wine Producers in 2022 (Measured in mhl)",
+    "width": 800,
+    "height": 300,
+    "config": {
+      "view": {
+         "stroke": "transparent"
+      }
+    },
+    "layer": [{
+    "data": {
+      "url": "https://raw.githubusercontent.com/Elee0068/FIT3179_Homework4/main/wineprodpie.csv" 
+    },
+    "encoding": {
+      "theta": {"field": "mhl", "type": "quantitative", "stack": true},
+      "color": {
+        "condition": {
+          "selection": "pts",
+          "field": "Country", "type": "nominal", "legend": null
+        }, "value": "lightgray"
+      }
+    },
+    "layer": [{
+      "selection": {
+        "pts": {"type": "single", "on": "click"}
+      },
+      "mark": {"type": "arc", "outerRadius": 90, "innerRadius": 50,  
+                "padAngle": 0.02, "cornerRadius": 3},
+      "encoding":{
+        "tooltip": [{"field": "info", "type": "nominal"}]
+      }          
+    }, {
+      "mark": {"type": "text", "radius": 125},
+      "encoding": {
+        "text": {"field": "Country", "type": "nominal"}
+      }
+    },{
+      "mark": {"type": "text", "fontSize": 20, "fontWeight": "bold"},
+      "encoding": {
+        "text": {
+          "condition":{
+            "selection": "pts",
+            "field": "mhl", "type": "quantitative", "stack": true
+          }
+        }
+      }
+    }]}, {
+      "data": {"url": "https://raw.githubusercontent.com/Elee0068/FIT3179_Homework4/main/wineprodpie.csv"},
+      "transform": [
+        {"aggregate": [{"op": "sum", "field": "mhl", "as": "total"}]}
+      ],
+      "layer": [{
+        "mark": {"type": "rect","width": 80,"height": 30,"fill": "white"},
+        "encoding": {
+          "x": {"value": 400},
+          "y": {"value": 150},
+          "opacity":{
+            "condition":{
+                "selection": "pts"
+              }, "value": 0
+            }
+        }
+      },{
+        "mark": {"type": "text", "fontSize": 20, "fontWeight": "bold"},
+            "encoding": {
+              "text": {
+                  "condition":{
+                      "selection": "pts",
+                      "field": "total", "type": "quantitative", "stack": true
+                    }
+                  },
+              "color": {"value": "black"}
+        }
+      }]
+      
+    }
+  ]
+}
